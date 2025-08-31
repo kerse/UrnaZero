@@ -23,8 +23,12 @@
     :root{
       --paper:#f7f7f7; --ink:#0b0b0b; --muted:#5f6368; --line:#e5e7eb; --accent:#111;
       --wrap:1160px; --radius:22px; --shadow:0 12px 32px rgba(0,0,0,.08);
-      --corner-iframe-w: 320px; --corner-iframe-h: 320px; --corner-iframe-gap: 0px; --corner-iframe-radius: 16px;
+
+      /* Уголок Spline */
+      --corner-iframe-w: 400px; --corner-iframe-h: 400px;
+      --corner-iframe-gap: 0px; --corner-iframe-radius: 16px;
     }
+
     *{box-sizing:border-box}
     html,body{height:100%; overflow-x:clip}
     body{
@@ -36,13 +40,13 @@
         var(--paper);
       line-height:1.55; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
     }
-    /* тонкая «бумага» поверх */
+    /* Едва заметная бумажная фактура */
     body::before{
       content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
-      background-image:url('assets/bg-paper.webp');
-      background-size:cover; background-position:50% 50%;
+      background-image:url('assets/bg-paper.webp'); background-size:cover; background-position:50% 50%;
       opacity:.06;
     }
+
     a{color:inherit; text-decoration:none}
     .wrap{max-width:var(--wrap); margin:0 auto; padding:28px 24px}
 
@@ -54,7 +58,7 @@
     .tag{font-size:12px; padding:8px 12px; border:1px solid #111; border-radius:999px; background:#fff}
 
     /* Hero */
-    .hero{display:grid; grid-template-columns: 0.9fr 1.1fr; align-items:center; gap:48px; padding:56px 0 24px}
+    .hero{display:grid; grid-template-columns:0.9fr 1.1fr; align-items:center; gap:48px; padding:56px 0 24px}
     .eyebrow{display:inline-flex; gap:10px; align-items:center; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em}
     .eyebrow .bar{display:inline-block; width:42px; height:4px; background:#111}
     h1{font-size:clamp(40px,6vw,72px); line-height:1.02; letter-spacing:-.02em; margin:16px 0 12px}
@@ -66,42 +70,52 @@
     .btn.secondary{background:#fff; color:#111; border:2px solid #111}
     .note{font-size:12px; color:var(--muted); margin-top:12px}
 
+    /* ВИЗУАЛ: <img> внутри контейнера — без обрезки, по центру */
     .visual{
-      width:100%; aspect-ratio:1/1; border-radius:var(--radius); border:1px solid #111; overflow:hidden;
-      background:
-        url('assets/urna-premium@2x.png') 56% 60% / clamp(360px, 92%, 720px) no-repeat,
-        radial-gradient(40% 30% at 50% 12%, rgba(0,0,0,.06), transparent 60%),
-        linear-gradient(180deg, #fafafa, #f1f1f1);
-      box-shadow:var(--shadow);
+      position:relative; display:grid; place-items:center;
+      border:1px solid #111; border-radius:var(--radius); overflow:hidden;
+      box-shadow:var(--shadow); padding:clamp(12px,2vw,28px); background:none !important;
+    }
+    .visual::before{content:""; position:absolute; inset:0; background:linear-gradient(180deg,#fafafa,#f1f1f1); z-index:0;}
+    .visual > img{position:relative; z-index:1; display:block; max-width:100%; height:auto; object-fit:contain;}
+    @media (min-width:981px){ .visual{aspect-ratio:1/1} .visual > img{width:100%; height:100%; object-fit:contain} }
+    @media (max-width:980px){
+      .hero{grid-template-columns:1fr; padding:36px 0 8px}
+      h1{font-size:clamp(34px,9vw,52px)}
+      .visual{aspect-ratio:auto}
+      .visual > img{width:min(94vw,720px); height:auto}
     }
 
-    /* Trust strip */
-    .trust{display:flex; gap:28px; align-items:center; flex-wrap:wrap; padding:18px 0; color:#222}
-    .trust span{display:inline-flex; align-items:center; gap:8px; font-size:14px}
-    .dot{width:8px; height:8px; background:#111; border-radius:50%}
-
-    /* Sections */
+    /* Секции */
     .section{padding:64px 0; content-visibility:auto}
-    .grid-3{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px}
+    .grid-3{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px}
     .card{border:1px solid #111; border-radius:18px; padding:22px; background:#fff; box-shadow:var(--shadow)}
     .card h3{margin:0 0 8px; font-size:20px}
     .card p{margin:0; color:#2b2b2b}
+    @media (max-width:900px){ .grid-3{grid-template-columns:1fr} }
 
-    /* Lifestyle full-bleed */
+    /* Аккуратная заметка о «чёрной дыре» (не пугаться) */
+    .ribbon{
+      border:1px solid #111; border-radius:999px; padding:12px 16px;
+      background:#fff; box-shadow:var(--shadow);
+      font-size:14px; color:#2b2b2b; text-align:center; margin:18px 0 0;
+    }
+
+    /* Full-bleed lifestyle */
     .fullbleed{position:relative; margin:40px calc(50% - 50vw); width:100vw}
     .fullbleed img{width:100%; height:auto; display:block}
     .fullbleed .cap{
       position:absolute; left:50%; bottom:20px; transform:translateX(-50%);
-      width:min(var(--wrap), calc(100vw - 32px)); color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.38);
-      font-weight:700;
+      width:min(var(--wrap), calc(100vw - 32px)); color:#fff; text-shadow:0 2px 12px rgba(0,0,0,.38); font-weight:700;
     }
 
-    /* Detail split */
+    /* Сплит-блоки */
     .split{display:grid; grid-template-columns:1.05fr .95fr; gap:20px; align-items:center}
     .split img{width:100%; height:auto; display:block; border-radius:18px; border:1px solid var(--line); background:#fff; box-shadow:var(--shadow)}
     .split .txt p{color:#2b2b2b; margin:0 0 10px}
+    @media (max-width:980px){ .split{grid-template-columns:1fr} }
 
-    /* Safety inline */
+    /* Безопасность inline */
     .safety{border:1px solid #111; border-radius:18px; padding:22px; background:#fff; box-shadow:var(--shadow)}
     .safety h3{margin:0 0 10px}
     .acc{margin-top:10px}
@@ -110,14 +124,27 @@
     .acc details{border-top:1px solid var(--line); padding-top:10px; margin-top:10px}
     .acc p{margin:8px 0; color:#2b2b2b}
 
-    /* Specs & price */
+    /* Характеристики */
     .specs{display:grid; grid-template-columns:1fr 1fr; gap:12px 24px; margin-top:16px}
     .specs p{margin:0; border-bottom:1px solid var(--line); padding:10px 0}
-    .price{display:flex; align-items:end; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-top:20px}
-    .price .num{font-size:clamp(26px,3.2vw,34px); font-weight:800; letter-spacing:-.01em}
+    @media (max-width:900px){ .specs{grid-template-columns:1fr} }
+
+    /* Большой центральный блок «Странный предзаказ» */
+    .cta-panel{
+      margin:64px 0 24px; border-radius:28px;
+      background:#111; color:#fff; border:2px solid #111; box-shadow:0 24px 60px rgba(0,0,0,.22);
+      padding: clamp(28px, 6vw, 56px);
+      text-align:center;
+    }
+    .cta-panel h2{margin:0 0 12px; font-size:clamp(28px,4.4vw,44px); letter-spacing:-.01em}
+    .cta-panel p{margin:0 0 18px; color:#d6d6d6; font-size:clamp(15px,1.8vw,18px)}
+    .btn.invert{background:#fff; color:#111; border-radius:16px; padding:16px 22px; font-weight:800; border:0; cursor:pointer}
+    .btn.invert:hover{transform:translateY(-1px)}
+
+    /* Footer */
     .foot{border-top:2px solid #111; padding:28px 0 40px; margin-top:32px; font-size:13px; color:#222}
 
-    /* Preorder toast + flash */
+    /* Кастомный тост «в мозг» + вспышка */
     .neuro-flash{position:fixed; inset:0; pointer-events:none; z-index:200; display:none;}
     .neuro-flash.show{display:block;}
     .neuro-flash::before{
@@ -138,10 +165,10 @@
     .neuro-sub{margin:0; color:#d6d6d6; font-size:14px; line-height:1.35}
     .neuro-close{appearance:none; border:0; background:#fff; color:#111; font-weight:800; border-radius:10px; padding:10px 12px; cursor:pointer}
     .neuro-progress{grid-column:1/-1; height:3px; border-radius:3px; background:linear-gradient(90deg, #fff, #bbb); overflow:hidden; position:relative; margin-top:4px; opacity:.9}
-    .neuro-progress::after{content:""; position:absolute; inset:0; background:#fff; transform-origin:left; animation: progress 5s linear forwards;}
-    @keyframes progress{ from{transform:scaleX(1)} to{transform:scaleX(0)} }
+    .neuro-progress::after{content:""; position:absolute; inset:0; background:#fff; transform-origin:left; animation:progress 5s linear forwards}
+    @keyframes progress{from{transform:scaleX(1)} to{transform:scaleX(0)}}
 
-    /* Spline corner */
+    /* Уголок Spline */
     .corner-iframe{
       position:fixed; right:max(var(--corner-iframe-gap), env(safe-area-inset-right));
       bottom:max(var(--corner-iframe-gap), env(safe-area-inset-bottom));
@@ -150,24 +177,9 @@
       background:transparent !important; box-shadow:none !important;
     }
     .corner-iframe iframe{width:100%; height:100%; display:block; border:0}
+    @media (max-width:640px){ .corner-iframe{ --corner-iframe-w:220px; --corner-iframe-h:220px } }
+    @media (max-width:380px){ .corner-iframe{ --corner-iframe-w:160px; --corner-iframe-h:160px } }
 
-    /* Mobile */
-    @media (max-width:1080px){ .hero{gap:32px} }
-    @media (max-width:980px){
-      .hero{grid-template-columns:1fr; padding:36px 0 8px}
-      h1{font-size:clamp(34px,9vw,52px)}
-      .visual{aspect-ratio:auto; min-height:360px; max-height:min(62vh, 720px); background-position:50% 40%; background-size:min(94vw, 720px)}
-      .split{grid-template-columns:1fr}
-    }
-    @media (max-width:900px){ .grid-3{grid-template-columns:1fr} .specs{grid-template-columns:1fr} }
-    @media (max-width:640px){
-      .wrap{padding:20px}
-      .btn{padding:14px 18px}
-      .corner-iframe{ --corner-iframe-w: 220px; --corner-iframe-h: 220px; }
-    }
-    @media (max-width:380px){
-      .corner-iframe{ --corner-iframe-w: 160px; --corner-iframe-h: 160px; }
-    }
     @media (prefers-reduced-motion: reduce){
       .neuro-flash::before{animation:none; opacity:0}
       .neuro-toast{transition:none}
@@ -192,51 +204,46 @@
         <span class="eyebrow"><span class="bar"></span> мгновенная утилизация</span>
         <h1>Умная урна. Всё исчезает — кроме впечатлений.</h1>
         <p class="sub">Бросайте бумагу, пластик, стекло, еду, металл — и продолжайте жить. <em>Если исчезнет больше — значит система работает даже лучше, чем обещали.</em></p>
-        <div class="cta">
-          <button class="btn primary" id="order-primary">Оформить предзаказ</button>
-          <button class="btn secondary" id="learn">Как это работает</button>
-        </div>
-        <p class="note">Вероятность нестабильности области утилизации ничтожна — и всё же математически отличима от нуля. Но у всего есть минусы, верно?</p>
+<div class="cta">
+  <button class="btn primary" id="order-primary">Оформить предзаказ</button>
+  <button class="btn secondary" id="learn">Как это работает</button>
+</div>
+<!-- одна, короткая, не пугающая ремарка -->
+<p class="ribbon">
+  Внутри — крошечная чёрная дыра-утилизатор. Система стабилизирована; вероятность эксцесса ничтожна,
+  хотя и отличима от нуля — не пугайтесь.
+</p>
       </div>
-      <!-- Квадратный рендер устройства -->
-      <figure class="visual" aria-label="URNA ZERO — визуал"></figure>
-    </section>
 
-    <!-- TRUST -->
-    <section class="trust">
-      <span><span class="dot"></span> Без сортировки</span>
-      <span><span class="dot"></span> Без тарифов</span>
-      <span><span class="dot"></span> Без следов</span>
+      <!-- Квадратный рендер устройства (путь и пропорции сохранены) -->
+      <figure class="visual" aria-label="URNA ZERO — визуал">
+        <img
+          src="assets/urna-premium@2x.png"
+          alt="URNA ZERO — премиальная урна, белая эмаль, графитовые кромки и тонкое ледяное свечение кольца"
+          decoding="async" loading="eager"
+          sizes="(max-width: 980px) 94vw, 560px"
+          srcset="assets/urna-premium@2x.png 1600w"
+        />
+      </figure>
     </section>
 
     <!-- BENEFITS -->
     <section class="section">
       <div class="grid-3">
-        <div class="card">
-          <h3>Без сортировки</h3>
-          <p>Один контейнер. Ноль компромиссов. Категории мусора остаются в методичках.</p>
-        </div>
-        <div class="card">
-          <h3>Без тарифов</h3>
-          <p>Вывоз не нужен — платить тоже некому. Бюджет благодарит.</p>
-        </div>
-        <div class="card">
-          <h3>Без следов</h3>
-          <p>Обратимость 0%. Если что-то вернулось — это уже не мусор.</p>
-        </div>
+        <div class="card"><h3>Без сортировки</h3><p>Один контейнер. Ноль компромиссов. Категории мусора остаются в методичках.</p></div>
+        <div class="card"><h3>Без тарифов</h3><p>Вывоз не нужен — платить тоже некому. Бюджет благодарит.</p></div>
+        <div class="card"><h3>Без следов</h3><p>Обратимость 0%. Если что-то вернулось — это уже не мусор.</p></div>
       </div>
     </section>
 
     <!-- LIFESTYLE FULL-BLEED -->
     <section class="fullbleed" aria-label="URNA ZERO в интерьере">
-      <picture>
-        <img src="assets/urna-lifestyle@2x.jpg" alt="URNA ZERO в спокойном светлом интерьере кухни" loading="lazy" decoding="async" />
-      </picture>
+      <img src="assets/urna-lifestyle@2x.jpg" alt="URNA ZERO в спокойном светлом интерьере кухни" loading="lazy" decoding="async" />
       <div class="cap">В реальной кухне выглядит так же спокойно, как в каталоге.</div>
     </section>
 
     <!-- HOW IT WORKS -->
-    <section class="section">
+    <section class="section" id="how">
       <h3>Как это работает</h3>
       <div class="grid-3">
         <div class="card"><h3>1. Бросаете</h3><p>Ничего не настраиваете. Устройство любит простоту.</p></div>
@@ -248,48 +255,28 @@
     <!-- DETAIL (MACRO) -->
     <section class="section">
       <div class="split">
-        <picture>
-          <img src="assets/urna-detail-ring@2x.jpg" alt="Кольцо крышки URNA ZERO крупным планом" loading="lazy" decoding="async" />
-        </picture>
+        <img src="assets/urna-detail-ring@2x.jpg" alt="Кольцо крышки URNA ZERO крупным планом" loading="lazy" decoding="async" />
         <div class="txt">
           <h3>Точность в деталях</h3>
           <p>Белая эмаль, графитовые кромки, аккуратные фаски. Тихий люкс без лишних эффектов.</p>
-          <p>Тонкое ледяное свечение кольца — знак того, что система «слышит» ваш жест.</p>
+          <p>Под светлым кольцом — стабилизированная область утилизации. Да, это <strong>крошечная чёрная дыра</strong>. Она ведёт себя воспитаннее большинства пакетов.</p>
         </div>
       </div>
     </section>
 
     <!-- EXPLODED VIEW -->
     <section class="section">
-      <div class="split" style="grid-template-columns: .95fr 1.05fr;">
+      <div class="split" style="grid-template-columns:.95fr 1.05fr;">
         <div class="txt">
           <h3>Инженерия без лишних слов</h3>
-          <p>Внутри — серьёзная физика. Снаружи — спокойствие и порядок.</p>
-          <p>Стабилизация области утилизации контролируется автоматически. Вероятность эксцессов — мала, но отличима от нуля.</p>
+          <p>Стабилизация контролируется автоматически. Вероятность «расшириться» — <strong>минимальная</strong> и при бытовом использовании стремится к нулю, но, по-честному, <strong>не равна</strong> ему.</p>
+          <p>Не пугайтесь. Этот риск настолько мал, что про него обычно вспоминают только в примечаниях со звёздочкой.</p>
         </div>
-        <picture>
-          <img src="assets/urna-exploded@2x.png" alt="Exploded-view URNA ZERO" loading="lazy" decoding="async" />
-        </picture>
+        <img src="assets/urna-exploded@2x.png" alt="Exploded-view URNA ZERO" loading="lazy" decoding="async" />
       </div>
     </section>
 
-    <!-- SAFETY INLINE -->
-    <section class="section">
-      <div class="safety">
-        <h3>Безопасность, честно</h3>
-        <p>Вероятность неконтролируемого расширения области утилизации — <strong>мала</strong>. И всё же: <strong>отличима от нуля</strong>.</p>
-        <div class="acc">
-          <details open>
-            <summary>Подробнее о стабильности</summary>
-            <p><strong>Автоконтроль горизонта:</strong> непрерывный мониторинг границ «эффективной утилизации».</p>
-            <p><strong>Гашение флуктуаций:</strong> локальные всплески затухают до того, как вы успеете заметить.</p>
-            <p><strong>Крайний случай:</strong> теоретически возможен. Практически — зависит от чувства юмора Вселенной.</p>
-          </details>
-        </div>
-      </div>
-    </section>
-
-    <!-- SPECS & PRICE -->
+    <!-- SPECS -->
     <section class="section">
       <h3>Характеристики</h3>
       <div class="specs">
@@ -297,25 +284,26 @@
         <p>Уровень шума: &lt; 5 dBA</p>
         <p>Подключение: 220–240V / розетка</p>
         <p>Расходники: не требуются</p>
-        <p>Обратимость: 0%</p>
+        <p>Обратимость: 0% (при бытовых сценариях)</p>
         <p>Габариты: «стандарт кухни»</p>
-      </div>
-      <div class="price">
-        <div>
-          <div class="num">Предзаказ: 0 ₽/мес за вывоз</div>
-          <div class="sub" style="margin:6px 0 0; font-size:16px">Оплата — только за устройство. Сроки производства уточняются.</div>
-        </div>
-        <button class="btn primary" id="order-secondary">Предзаказ</button>
       </div>
     </section>
 
+    <!-- БОЛЬШОЙ ЧЁРНЫЙ БЛОК: «СТРАННЫЙ ПРЕДЗАКАЗ» -->
+    <section class="cta-panel" id="preorder">
+      <h2>Странный предзаказ</h2>
+      <p>Классических цифр нет. Формальности — тоже. Мы аккуратно зафиксируем ваш интерес<br/>и отправим все подтверждения <em>напрямую в ваш мозг</em>.</p>
+      <button class="btn invert" id="order-secondary">Оформить предзаказ</button>
+      <p style="margin-top:14px; font-size:13px; color:#a7a7a7">Срок изготовления неизвестен, но с высокой вероятностью — при вашей жизни.</p>
+    </section>
+
     <footer class="foot">
-      * ∞ — в рамках наблюдаемого времени. † Обратимость нулевая при бытовых сценариях. ‡ Определяется внутренним чувством прекрасного.
+      * ∞ — в рамках наблюдаемого времени. † Вероятность нестабильности области утилизации минимальна, но отличима от нуля. Не пугайтесь: на кухне это выражается в идеальном порядке.
       <br/>© URNA ZERO. Всё исчезает — кроме впечатлений.
     </footer>
   </div>
 
-  <!-- CUSTOM PREORDER TOAST -->
+  <!-- Кастомный тост + вспышка -->
   <div class="neuro-flash" id="neuroFlash" aria-hidden="true"></div>
   <div class="neuro-toast" id="neuroToast" role="status" aria-live="polite">
     <span class="neuro-ico" aria-hidden="true">
@@ -327,13 +315,13 @@
     </span>
     <div>
       <p class="neuro-title">Предзаказ принят</p>
-      <p class="neuro-sub">Вся информация получена <strong>напрямую из вашего мозга</strong>. Когда продукт будет доступен, мы также пошлём обновление <strong>напрямую в ваш мозг</strong>. Срок изготовления неизвестен, но, скорее всего, успеем при вашей жизни.</p>
+      <p class="neuro-sub">Данные получены <strong>напрямую из вашего мозга</strong>. Когда устройство будет готово, мы отправим обновление <strong>напрямую в ваш мозг</strong>. Срок изготовления неизвестен, но, скорее всего, это произойдёт при вашей жизни.</p>
     </div>
     <button class="neuro-close" id="neuroClose" aria-label="Закрыть уведомление">ОК</button>
     <div class="neuro-progress" aria-hidden="true"></div>
   </div>
 
-  <!-- Spline corner embed (no bg/shadow) -->
+  <!-- Spline corner embed (без фона/тени) -->
   <div class="corner-iframe" aria-label="Интерактивный ассистент">
     <iframe
       src="https://my.spline.design/aiassistantmorphtargetsdemocommunitycopy-eHOoBJRJ9tKInpn01XvCNrRP/"
@@ -345,7 +333,7 @@
   </div>
 
   <script>
-    // Тост + вспышка
+    // Кастомный «тост в мозг» + вспышка
     (function(){
       const toast = document.getElementById('neuroToast');
       const flash = document.getElementById('neuroFlash');
@@ -354,12 +342,11 @@
       let hideTimer;
 
       function showToast(){
-        flash.classList.add('show');
-        setTimeout(()=> flash.classList.remove('show'), 700);
-        toast.classList.add('show');
-        clearTimeout(hideTimer);
-        hideTimer = setTimeout(hideToast, 5200);
-        try{ gtag('event','preorder_click', {event_category:'CTA', event_label:'URNA ZERO PRO EDITORIAL'});}catch(e){}
+        flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 700);
+        toast.classList.add('show'); clearTimeout(hideTimer); hideTimer = setTimeout(hideToast, 5200);
+        try{ gtag('event','preorder_click', {event_category:'CTA', event_label:'URNA ZERO STRANGE PREORDER'});}catch(e){}
+        // Скролл к панелі, если кликнули в хиро
+        document.getElementById('preorder')?.scrollIntoView({behavior:'smooth', block:'center'});
       }
       function hideToast(){ toast.classList.remove('show'); }
       closeBtn.addEventListener('click', hideToast);
@@ -368,8 +355,7 @@
 
     // «Как это работает» — мягкий скролл
     document.getElementById('learn')?.addEventListener('click', ()=>{
-      const el = document.querySelector('.grid-3');
-      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
+      document.getElementById('how')?.scrollIntoView({behavior:'smooth', block:'start'});
     });
   </script>
 </body>
