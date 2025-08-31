@@ -21,12 +21,13 @@
 
   <style>
     :root{
+      /* Базовые токены */
       --paper:#f7f7f7; --ink:#0b0b0b; --muted:#5f6368; --line:#e5e7eb; --accent:#111;
       --wrap:1160px; --radius:22px; --shadow:0 12px 32px rgba(0,0,0,.08);
 
-      /* Уголок Spline */
-      --corner-iframe-w: 400px; --corner-iframe-h: 400px;
-      --corner-iframe-gap: 0px; --corner-iframe-radius: 16px;
+      /* Уголок Spline (как просили: без фона/тени) */
+      --corner-iframe-w: 320px; --corner-iframe-h: 320px;
+      --corner-iframe-gap: 0px;  --corner-iframe-radius: 16px;
     }
 
     *{box-sizing:border-box}
@@ -39,6 +40,7 @@
         radial-gradient(900px 700px at 10% 100%, #ffffff 0%, transparent 60%),
         var(--paper);
       line-height:1.55; -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+      font-feature-settings:"tnum" 1, "liga" 1;
     }
     /* Едва заметная бумажная фактура */
     body::before{
@@ -53,7 +55,8 @@
     /* Header */
     header{display:flex; align-items:center; justify-content:space-between; gap:16px}
     .logo{display:flex; align-items:center; gap:12px}
-    .badge{display:inline-flex; width:20px; height:20px; border-radius:50%; background:#111; box-shadow:inset 0 0 0 4px #fff, 0 0 0 1px #111}
+    .badge{display:inline-flex; width:20px; height:20px; border-radius:50%;
+           background:#111; box-shadow:inset 0 0 0 4px #fff, 0 0 0 1px #111}
     .logo span{font-weight:800; letter-spacing:.01em}
     .tag{font-size:12px; padding:8px 12px; border:1px solid #111; border-radius:999px; background:#fff}
 
@@ -68,7 +71,6 @@
     .btn.primary{background:#111; color:#fff; box-shadow:var(--shadow)}
     .btn.primary:hover{transform:translateY(-1px); filter:saturate(108%)}
     .btn.secondary{background:#fff; color:#111; border:2px solid #111}
-    .note{font-size:12px; color:var(--muted); margin-top:12px}
 
     /* ВИЗУАЛ: <img> внутри контейнера — без обрезки, по центру */
     .visual{
@@ -94,7 +96,7 @@
     .card p{margin:0; color:#2b2b2b}
     @media (max-width:900px){ .grid-3{grid-template-columns:1fr} }
 
-    /* Аккуратная заметка о «чёрной дыре» (не пугаться) */
+    /* Аккуратная ЭДИНАЯ заметка про чёрную дыру (без дублирования текста) */
     .ribbon{
       border:1px solid #111; border-radius:999px; padding:12px 16px;
       background:#fff; box-shadow:var(--shadow);
@@ -129,7 +131,7 @@
     .specs p{margin:0; border-bottom:1px solid var(--line); padding:10px 0}
     @media (max-width:900px){ .specs{grid-template-columns:1fr} }
 
-    /* Большой центральный блок «Странный предзаказ» */
+    /* Большой чёрный блок «Странный предзаказ» */
     .cta-panel{
       margin:64px 0 24px; border-radius:28px;
       background:#111; color:#fff; border:2px solid #111; box-shadow:0 24px 60px rgba(0,0,0,.22);
@@ -168,15 +170,30 @@
     .neuro-progress::after{content:""; position:absolute; inset:0; background:#fff; transform-origin:left; animation:progress 5s linear forwards}
     @keyframes progress{from{transform:scaleX(1)} to{transform:scaleX(0)}}
 
-    /* Уголок Spline */
+    /* Уголок Spline (без фона/тени) */
     .corner-iframe{
-      position:fixed; right:max(var(--corner-iframe-gap), env(safe-area-inset-right));
+      position:fixed;
+      right:max(var(--corner-iframe-gap), env(safe-area-inset-right));
       bottom:max(var(--corner-iframe-gap), env(safe-area-inset-bottom));
       width:var(--corner-iframe-w); height:var(--corner-iframe-h);
       z-index:60; border:0; border-radius:var(--corner-iframe-radius); overflow:hidden;
       background:transparent !important; box-shadow:none !important;
     }
     .corner-iframe iframe{width:100%; height:100%; display:block; border:0}
+
+    /* Кнопки оверлея для голоса (показываются только при необходимости) */
+    .voice-cta, .voice-open{
+      position:absolute; right:12px; display:none;
+      align-items:center; justify-content:center;
+      padding:10px 14px; border-radius:12px; border:0; cursor:pointer;
+      font-weight:800; color:#fff; box-shadow:0 8px 24px rgba(0,0,0,.22);
+    }
+    .voice-cta{ bottom:12px; background:#111; }     /* жест для старта голоса */
+    .voice-open{ bottom:52px; background:#0b5; }    /* план Б: открыть ассистента отдельно */
+
+    .corner-iframe.needs-gesture .voice-cta{ display:inline-flex; }
+    .corner-iframe.offer-open    .voice-open{ display:inline-flex; }
+
     @media (max-width:640px){ .corner-iframe{ --corner-iframe-w:220px; --corner-iframe-h:220px } }
     @media (max-width:380px){ .corner-iframe{ --corner-iframe-w:160px; --corner-iframe-h:160px } }
 
@@ -204,18 +221,19 @@
         <span class="eyebrow"><span class="bar"></span> мгновенная утилизация</span>
         <h1>Умная урна. Всё исчезает — кроме впечатлений.</h1>
         <p class="sub">Бросайте бумагу, пластик, стекло, еду, металл — и продолжайте жить. <em>Если исчезнет больше — значит система работает даже лучше, чем обещали.</em></p>
-<div class="cta">
-  <button class="btn primary" id="order-primary">Оформить предзаказ</button>
-  <button class="btn secondary" id="learn">Как это работает</button>
-</div>
-<!-- одна, короткая, не пугающая ремарка -->
-<p class="ribbon">
-  Внутри — крошечная чёрная дыра-утилизатор. Система стабилизирована; вероятность эксцесса ничтожна,
-  хотя и отличима от нуля — не пугайтесь.
-</p>
+        <div class="cta">
+          <button class="btn primary" id="order-primary">Оформить предзаказ</button>
+          <button class="btn secondary" id="learn">Как это работает</button>
+        </div>
+
+        <!-- одна, короткая, не пугающая ремарка -->
+        <p class="ribbon">
+          Внутри — крошечная чёрная дыра-утилизатор. Система стабилизирована; вероятность эксцесса ничтожна,
+          хотя и отличима от нуля — не пугайтесь.
+        </p>
       </div>
 
-      <!-- Квадратный рендер устройства (путь и пропорции сохранены) -->
+      <!-- Квадратный рендер устройства (путь/пропорции сохранены) -->
       <figure class="visual" aria-label="URNA ZERO — визуал">
         <img
           src="assets/urna-premium@2x.png"
@@ -321,19 +339,28 @@
     <div class="neuro-progress" aria-hidden="true"></div>
   </div>
 
-  <!-- Spline corner embed (без фона/тени) -->
+  <!-- Spline corner embed (HTTPS на GitHub Pages) -->
   <div class="corner-iframe" aria-label="Интерактивный ассистент">
     <iframe
+      id="splineFrame"
       src="https://my.spline.design/aiassistantmorphtargetsdemocommunitycopy-eHOoBJRJ9tKInpn01XvCNrRP/"
       title="Spline embed"
       loading="lazy"
-      allow="microphone; autoplay; fullscreen; xr-spatial-tracking"
+      allow="
+        microphone; camera; autoplay; fullscreen; xr-spatial-tracking;
+        accelerometer; gyroscope; magnetometer; midi; clipboard-write; display-capture
+      "
+      referrerpolicy="no-referrer"
       allowfullscreen>
     </iframe>
+
+    <!-- показываются ТОЛЬКО при необходимости -->
+    <button class="voice-cta" id="voiceEnable" type="button" aria-live="polite">Включить&nbsp;голос</button>
+    <button class="voice-open" id="voiceOpen" type="button" aria-live="polite">Открыть ассистента</button>
   </div>
 
   <script>
-    // Кастомный «тост в мозг» + вспышка
+    // Тост + вспышка для предзаказа
     (function(){
       const toast = document.getElementById('neuroToast');
       const flash = document.getElementById('neuroFlash');
@@ -345,7 +372,6 @@
         flash.classList.add('show'); setTimeout(()=> flash.classList.remove('show'), 700);
         toast.classList.add('show'); clearTimeout(hideTimer); hideTimer = setTimeout(hideToast, 5200);
         try{ gtag('event','preorder_click', {event_category:'CTA', event_label:'URNA ZERO STRANGE PREORDER'});}catch(e){}
-        // Скролл к панелі, если кликнули в хиро
         document.getElementById('preorder')?.scrollIntoView({behavior:'smooth', block:'center'});
       }
       function hideToast(){ toast.classList.remove('show'); }
@@ -357,6 +383,56 @@
     document.getElementById('learn')?.addEventListener('click', ()=>{
       document.getElementById('how')?.scrollIntoView({behavior:'smooth', block:'start'});
     });
+
+    // Голос для Spline в iframe: жест/разрешения/план Б
+    (function(){
+      const box  = document.querySelector('.corner-iframe');
+      const ifr  = document.getElementById('splineFrame');
+      const btnE = document.getElementById('voiceEnable');
+      const btnO = document.getElementById('voiceOpen');
+
+      const isiOS    = /iP(hone|ad|od)/.test(navigator.userAgent);
+      const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+
+      async function probe(){
+        let needGesture = isiOS || isSafari; // чаще нужно на iOS/Safari
+        try{
+          if ('permissions' in navigator && navigator.permissions.query) {
+            const st = await navigator.permissions.query({ name: 'microphone' });
+            needGesture = (st.state === 'prompt' || st.state === 'denied') || needGesture;
+            if (st.state === 'denied') box.classList.add('offer-open'); // предложим открыть отдельно
+          } else {
+            needGesture = true;
+          }
+        }catch(e){ needGesture = true; }
+
+        if (needGesture) box.classList.add('needs-gesture');
+      }
+
+      function warmUpAudio(){
+        try{
+          const AC = window.AudioContext || window.webkitAudioContext;
+          const ac = new AC();
+          ac.resume().finally(()=> setTimeout(()=>ac.close(), 800));
+        }catch(e){}
+      }
+
+      btnE.addEventListener('click', () => {
+        try { ifr.contentWindow?.focus(); } catch(e){}
+        warmUpAudio();
+        box.classList.remove('needs-gesture');
+        try { window.gtag && gtag('event','voice_cta_click',{label:'spline_voice_enable'}); } catch(e){}
+      }, { once:true });
+
+      btnO.addEventListener('click', () => {
+        window.open(ifr.src, '_blank', 'noopener');
+        try { window.gtag && gtag('event','voice_cta_open',{label:'spline_open_newtab'}); } catch(e){}
+      });
+
+      ifr.addEventListener('pointerdown', () => warmUpAudio(), { once:true });
+
+      probe();
+    })();
   </script>
 </body>
 </html>
