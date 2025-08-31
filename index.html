@@ -1,0 +1,490 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>URNA ZERO — умная урна с мгновенной утилизацией</title>
+  <meta name="description" content="Бросайте всё — мусор исчезает. Без сортировки, без тарифов. URNA ZERO — бесшумная мгновенная утилизация." />
+
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-XLBMG2GBC2"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){ dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-XLBMG2GBC2');
+  </script>
+
+  <style>
+/* ===== PREMIUM MODE PATCH (CSS-only) ===== */
+
+/* Палитра и оптика «премиум-техники»: индиго + платина */
+:root{
+  --bg:#0a1020;          /* ещё чуть темнее и «чище» */
+  --bg-2:#0f1830;
+  --fg:#e9eefc;
+  --muted:#b4bfde;
+  --line:#2a385e;
+  --accent:#9fd6ff;      /* холодный «платиновый» голубой */
+  --accent-2:#e2f4ff;    /* ледяной отблеск для тонких деталей */
+  --warn:#ff6d7a;
+
+  --radius:18px;
+  --elev-1:0 1px 0 rgba(255,255,255,.04), 0 20px 40px rgba(0,0,0,.35);
+  --hairline:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0));
+}
+
+/* Фон — мягкие эллиптические градиенты + едва заметная платиновая «сеточка» */
+body{
+  background:
+    radial-gradient(1400px 900px at 12% 6%, #0e1a34 0%, transparent 60%),
+    radial-gradient(1200px 800px at 88% 96%, #0c1730 0%, transparent 60%),
+    var(--bg);
+  color:var(--fg);
+  line-height:1.55;
+  letter-spacing: .003em;
+  font-feature-settings: "tnum" 1, "liga" 1, "ss01" 1;
+}
+body::before{
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0)) 0 0/100% 240px,
+    repeating-linear-gradient(90deg, transparent 0 119px, rgba(255,255,255,.03) 119px 120px),
+    repeating-linear-gradient(0deg, transparent 0 119px, rgba(255,255,255,.03) 119px 120px);
+  opacity:.28;
+}
+
+/* Типографика «спокойная, дорогая» */
+h1{
+  font-weight:800;
+  letter-spacing:-.015em;
+  line-height:1.08;
+  text-shadow: 0 1px 0 rgba(0,0,0,.25);
+}
+h1 strong, h1 em{ color:var(--accent); font-style:normal; }
+.sub{
+  color:var(--muted);
+  font-size:clamp(16px,2.1vw,19px);
+}
+
+/* Хлебные крошки/бейджи */
+.kicker{
+  border:1px solid var(--line);
+  background:linear-gradient(90deg, #9fd6ff29, #e2f4ff1a);
+  color:#0d2236;
+}
+
+/* Кнопки — плотный «премиум» без кислотности, с микрорельефом */
+.btn{
+  border:0;
+  border-radius:14px;
+  font-weight:750;
+  letter-spacing:.01em;
+  background:
+    linear-gradient(180deg, #aadcff, #8ecfff);
+  color:#0a1426;
+  box-shadow: var(--elev-1);
+  transition: transform .12s ease, box-shadow .25s ease, filter .25s ease, opacity .2s ease;
+}
+.btn:hover{ transform: translateY(-1px); filter: saturate(110%); }
+.btn:active{ transform: translateY(0); filter: saturate(100%); }
+.btn.sec{
+  background:linear-gradient(180deg, #162542, #141f38);
+  color:var(--accent);
+  border:1px solid var(--line);
+  box-shadow:none;
+}
+
+/* Карточки — тонкие «металлические» ребра, без тяжёлых теней */
+.card{
+  border:1px solid var(--line);
+  border-radius:var(--radius);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
+  box-shadow: 0 10px 30px rgba(0,0,0,.32);
+  backdrop-filter: saturate(115%) blur(4px);
+}
+.card h3{ letter-spacing:.005em; font-weight:750; }
+.card p, .specs{ color:var(--muted); }
+
+/* Хедер/футер — hairline-бордеры, «как у техники» */
+header, .foot{
+  border-top: none;
+  border-bottom: none;
+}
+.foot{
+  border-top:1px solid var(--line);
+  color:var(--muted);
+}
+
+/* 3D-подложка — чуть спокойнее, чтобы не спорила с «премиум» стилем */
+.bg-3d .floaters{ opacity:.18; animation-duration: 36s; }
+.bg-3d .floater{ filter: drop-shadow(0 10px 18px rgba(0,0,0,.35)); }
+
+/* ===== Иллюстрация справа: используем вашу картинку вместо встроенного SVG ===== */
+
+/* 1) Скрыть встроенную SVG в .hero-art (без правок HTML) */
+.hero-art svg{ display:none !important; }
+
+/* 2) Включить фон-картинку в .hero-art.
+      ЗАМЕНИТЕ ПУТЬ на свой файл (рекомендации ниже):
+      Пример: url('/assets/urna-premium@2x.png') */
+.hero-art{
+  background:
+    radial-gradient(40% 30% at 50% 15%, rgba(159,214,255,.18), transparent 60%),
+    linear-gradient(180deg, #0f1a34, #0b1326);
+  position:relative;
+}
+.hero-art{
+  background-image:
+    url('/assets/urna-premium@2x.png'); /* <- ВАШ ПУТЬ К ФАЙЛУ */
+  background-repeat: no-repeat;
+  background-position: 56% 52%;        /* чуть правее центра */
+  background-size: min(88%, 520px);    /* контролируем масштаб аккуратно */
+  border:1px solid var(--line);
+  border-radius:20px;
+}
+
+/* 3) Тонкий «глянец» по верхнему краю карточки-иллюстрации */
+.hero-art::after{
+  content:"";
+  position:absolute; left:0; right:0; top:0; height:14%;
+  background: var(--hairline);
+  border-top-left-radius: inherit;
+  border-top-right-radius: inherit;
+  pointer-events:none;
+  opacity:.5;
+}
+
+/* ===== Не трогаем ваш уголок Spline (фиксируем «как просили») ===== */
+:root{
+  --corner-iframe-w: 320px;
+  --corner-iframe-h: 320px;
+  --corner-iframe-gap: 0px;
+  --corner-iframe-radius: 16px;
+}
+.corner-iframe{
+  position: fixed;
+  right: var(--corner-iframe-gap);
+  bottom: var(--corner-iframe-gap);
+  width: var(--corner-iframe-w);
+  height: var(--corner-iframe-h);
+  z-index: 60;       /* ниже модалки (100) */
+  border: 0;
+  border-radius: var(--corner-iframe-radius);
+  overflow: hidden;
+  background: transparent !important;  /* без фона */
+  box-shadow: none !important;         /* без тени */
+}
+.corner-iframe iframe{ width:100%; height:100%; display:block; border:0; }
+
+/* ===== Мобайл-адаптация (спокойная, без перегруза) ===== */
+@media (max-width: 980px){
+  .hero{ grid-template-columns: 1fr; gap: 22px; }
+  .hero-art{
+    background-position: 50% 50%;
+    background-size: min(92%, 520px);
+  }
+}
+@media (max-width: 640px){
+  .wrap{ padding: 18px; }
+  .grid{ grid-template-columns: 1fr; }
+  h1{ font-size: clamp(26px, 7vw, 36px); }
+  .sub{ font-size: 15.5px; }
+  .corner-iframe{
+    --corner-iframe-w: 220px;
+    --corner-iframe-h: 220px;
+  }
+}
+@media (max-width: 420px){
+  .corner-iframe{
+    --corner-iframe-w: 180px;
+    --corner-iframe-h: 180px;
+  }
+}
+
+/* Уважение к prefers-reduced-motion — не убираем, просто напоминаю */
+@media (prefers-reduced-motion: reduce){
+  .bg-3d .floaters, .bg-3d .floater, .btn, .hero-art *{ animation:none; transition:none; }
+}
+
+  </style>
+</head>
+<body>
+  <!-- 3D-ish SVG background: обновлён под тёмную тему -->
+  <div class="bg-3d" aria-hidden="true">
+    <div class="orb">
+      <svg viewBox="0 0 1000 1000" role="presentation">
+        <defs>
+          <radialGradient id="g1" cx="50%" cy="50%" r="50%">
+            <stop offset="0%" stop-color="#7cc6ff" stop-opacity=".12"/>
+            <stop offset="60%" stop-color="#7cc6ff" stop-opacity=".04"/>
+            <stop offset="100%" stop-color="#7cc6ff" stop-opacity="0"/>
+          </radialGradient>
+        </defs>
+        <circle cx="500" cy="500" r="480" fill="url(#g1)"/>
+        <g fill="none" stroke="#7cc6ff" stroke-opacity=".10">
+          <ellipse cx="500" cy="500" rx="420" ry="220"/>
+          <ellipse cx="500" cy="500" rx="360" ry="180"/>
+          <ellipse cx="500" cy="500" rx="300" ry="140"/>
+          <ellipse cx="500" cy="500" rx="240" ry="110"/>
+          <ellipse cx="500" cy="500" rx="180" ry="80"/>
+        </g>
+      </svg>
+    </div>
+
+    <div class="floaters" id="floaters">
+      <div class="floater" style="left:8%; top:18%; animation-delay:-1s;">
+        <svg viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="chipA" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#7cc6ff" stop-opacity=".18"/>
+              <stop offset="100%" stop-color="#7cc6ff" stop-opacity=".04"/>
+            </linearGradient>
+          </defs>
+          <rect x="10" y="10" width="180" height="180" rx="24" fill="url(#chipA)"/>
+          <circle cx="100" cy="100" r="44" fill="#7cc6ff" opacity=".06"/>
+        </svg>
+      </div>
+      <div class="floater" style="left:70%; top:8%; animation-delay:-2.4s;">
+        <svg viewBox="0 0 200 200">
+          <defs>
+            <linearGradient id="chipB" x1="1" x2="0" y1="0" y2="1">
+              <stop offset="0%" stop-color="#7cc6ff" stop-opacity=".18"/>
+              <stop offset="100%" stop-color="#7cc6ff" stop-opacity=".04"/>
+            </linearGradient>
+          </defs>
+          <polygon points="20,30 180,50 160,180 40,160" fill="url(#chipB)" />
+          <circle cx="120" cy="120" r="30" fill="#7cc6ff" opacity=".06"/>
+        </svg>
+      </div>
+      <div class="floater" style="left:78%; top:66%; animation-delay:-3.6s;">
+        <svg viewBox="0 0 200 200">
+          <defs>
+            <radialGradient id="chipC" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stop-color="#7cc6ff" stop-opacity=".18"/>
+              <stop offset="100%" stop-color="#7cc6ff" stop-opacity=".04"/>
+            </radialGradient>
+          </defs>
+          <circle cx="100" cy="100" r="90" fill="url(#chipC)"/>
+          <rect x="70" y="70" width="60" height="60" rx="10" fill="#7cc6ff" opacity=".06"/>
+        </svg>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <header>
+      <a class="logo" href="#" aria-label="URNA ZERO">
+        <!-- Лого: кольцо + точка, адаптировано под тёмный фон -->
+        <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
+          <defs>
+            <radialGradient id="lg" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="#7cc6ff"/>
+              <stop offset="100%" stop-color="#7cc6ff" stop-opacity=".4"/>
+            </radialGradient>
+          </defs>
+        <circle cx="13" cy="13" r="11" fill="none" stroke="#7cc6ff" stroke-opacity=".85" stroke-width="2"/>
+        <circle cx="13" cy="13" r="3.2" fill="url(#lg)"/>
+        </svg>
+        <span>URNA&nbsp;ZERO</span>
+      </a>
+      <span class="tag">Предзаказ открыт</span>
+    </header>
+
+    <section class="hero">
+      <div>
+        <span class="kicker" title="Бесшумная мгновенная утилизация">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 7L9 18l-5-5" stroke="#0e7490" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Без сортировки. Без тарифов. Без следов*.
+        </span>
+        <h1>Умная урна с мгновенной утилизацией</h1>
+        <p class="sub">Бросайте бумагу, пластик, еду, металл — всё исчезает. Никаких контейнеров, графиков вывоза и платы за мусор. <em class="muted">А если внезапно исчезнет больше — значит система работает даже лучше, чем обещали.</em></p>
+        <div class="cta">
+          <button class="btn" id="order">Оформить предзаказ</button>
+          <button class="btn sec" id="learn">Как это работает</button>
+        </div>
+        <p class="note">
+          *Вероятность нестабильности области утилизации <em>ничтожна</em>… и, по-честному, математически отличима от нуля. Но у всего есть минусы, верно?
+        </p>
+      </div>
+
+      <!-- Иллюстрация продукта (SVG под тёмную тему) -->
+      <figure class="hero-art" aria-label="Иллюстрация: URNA ZERO">
+        <svg viewBox="0 0 800 800" role="img" aria-labelledby="title desc">
+          <title id="title">URNA ZERO — иллюстрация</title>
+          <desc id="desc">Тёмный корпус, сияющее кольцо, диск утилизации. Всё спокойно, почти всегда.</desc>
+          <defs>
+            <radialGradient id="hole" cx="50%" cy="48%" r="42%">
+              <stop offset="0%" stop-color="#000000"/>
+              <stop offset="60%" stop-color="#030711"/>
+              <stop offset="100%" stop-color="#0b1220"/>
+            </radialGradient>
+            <radialGradient id="ringGlow" cx="50%" cy="50%" r="60%">
+              <stop offset="0%" stop-color="#c0f2ff" stop-opacity=".9"/>
+              <stop offset="50%" stop-color="#7cc6ff" stop-opacity=".35"/>
+              <stop offset="100%" stop-color="#7cc6ff" stop-opacity="0"/>
+            </radialGradient>
+            <linearGradient id="body" x1="0" x2="1" y1="0" y2="1">
+              <stop offset="0%" stop-color="#11203f"/>
+              <stop offset="100%" stop-color="#0f1a34"/>
+            </linearGradient>
+            <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+              <feGaussianBlur stdDeviation="22" result="b"/>
+              <feBlend in="SourceGraphic" in2="b" mode="normal"/>
+            </filter>
+          </defs>
+
+          <ellipse cx="400" cy="680" rx="210" ry="28" fill="#000" opacity=".35"/>
+
+          <rect x="240" y="180" width="320" height="480" rx="28" fill="url(#body)" stroke="#213054" />
+          <rect x="230" y="160" width="340" height="36" rx="10" fill="#132246" stroke="#213054" />
+          <rect x="365" y="148" width="70" height="18" rx="9" fill="#213054" />
+
+          <g transform="translate(0,-10)">
+            <circle cx="400" cy="360" r="120" fill="url(#hole)"/>
+            <g style="transform-origin:400px 360px; animation:spin 12s linear infinite">
+              <ellipse cx="400" cy="360" rx="168" ry="40" fill="url(#ringGlow)"/>
+              <ellipse cx="400" cy="360" rx="172" ry="42" fill="none" stroke="#7cc6ff" stroke-opacity=".18"/>
+              <ellipse cx="400" cy="360" rx="164" ry="38" fill="none" stroke="#7cc6ff" stroke-opacity=".12"/>
+            </g>
+          </g>
+
+          <g filter="url(#soft)">
+            <path d="M280 250 C 310 240, 330 230, 340 210" stroke="#7cc6ff" stroke-opacity=".35" stroke-width="2" fill="none" />
+            <rect x="332" y="196" width="22" height="16" rx="3" fill="#7cc6ff" opacity=".25" />
+          </g>
+
+          <style>
+            @keyframes spin{to{transform:rotate(360deg)}}
+          </style>
+        </svg>
+      </figure>
+    </section>
+
+    <section class="section">
+      <div class="grid">
+        <div class="card">
+          <h3>Мгновенная утилизация</h3>
+          <p>Бросили — и всё. Никаких запахов, переполненных пакетов и споров о сортировке. Соседи в восторге, если ещё есть соседи.</p>
+          <p class="specs">Пропускная способность: <strong>∞ л/сутки</strong> *</p>
+        </div>
+        <div class="card">
+          <h3>Никаких платежей</h3>
+          <p>Абонплаты за вывоз нет. Счёт за мусор — нулевой. Не потому что кто-то заплатит за вас, а потому что платить уже некому.</p>
+          <p class="specs">Платёжные периоды: <strong>отсутствуют</strong></p>
+        </div>
+        <div class="card">
+          <h3>Тишина и чистота</h3>
+          <p>Бесшумно, без вибраций и износа мешков. Иногда — тихий космологический шёпот, но это показалось.</p>
+          <p class="specs">Уровень шума: <strong>&lt; 5 dBA</strong></p>
+        </div>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <h3>Хватает на всё</h3>
+          <p>Бумага, пластик, стекло, пищевые отходы, металлы — никаких ограничений. Желаете избавиться от ограничений? Они тоже исчезают.</p>
+          <p class="specs">Калибровка материала: <strong>не требуется</strong></p>
+        </div>
+        <div class="card">
+          <h3>Компактный корпус</h3>
+          <p>Станет в угол и растворит беспорядок — буквально. Угол останется, почти наверняка.</p>
+          <p class="specs">Размеры: <strong>Стандарт кухни</strong></p>
+        </div>
+        <div class="card">
+          <h3>Без следов</h3>
+          <p>Отходы не возвращаются. <span class="muted">Никогда.</span> Если что-то вернулось — это уже не отходы.</p>
+          <p class="specs">Обратимость процесса: <strong>0%</strong> †</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="grid">
+        <div class="card">
+          <h3>Безопасность</h3>
+          <p>Система стабилизации контролирует область утилизации. Статистически вероятность неконтролируемого расширения <em>ничтожна</em>…</p>
+          <p class="specs">…и одновременно <strong>отличима от нуля</strong> — чтобы мы все не теряли вкус к жизни.</p>
+        </div>
+        <div class="card">
+          <h3>Вопросы?</h3>
+          <p>Нажмите «Подробнее», чтобы увидеть детали модели стабильности и честный ответ на «что может пойти не так?»</p>
+          <p class="specs"><button class="btn sec" id="risk">Подробнее</button></p>
+        </div>
+        <div class="card">
+          <h3>Гарантия впечатлений</h3>
+          <p>Если вы любите порядок — он будет. Если вы любите острые ощущения — <span class="muted">вероятностная природа мира</span> не подведёт.</p>
+          <p class="specs">Моральный ущерб: <strong>в рамках допустимого</strong>‡</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="foot">
+      * ∞ — в рамках наблюдаемого времени. † Обратимость нулевая при бытовых сценариях. ‡ Определяется внутренним чувством прекрасного.<br/>
+      © URNA ZERO. Всё исчезнет, кроме впечатлений.
+    </footer>
+  </div>
+
+  <!-- Modal -->
+  <dialog class="modal" id="modal">
+    <div class="modal-card" role="document" aria-labelledby="m-title">
+      <button class="close" id="close" aria-label="Закрыть">×</button>
+      <h3 id="m-title">Стабильность области утилизации</h3>
+      <p class="muted">Коротко: вероятность нестабильного расширения мала. <em>Мала ли настолько, чтобы ею пренебречь</em> — вопрос философский; инженерно решается, статистически трактуется.</p>
+      <ul>
+        <li><strong>Автоконтроль горизонта:</strong> мониторинг границ «эффективной утилизации» в реальном времени.</li>
+        <li><strong>Гашение флуктуаций:</strong> локальные всплески затухают быстрее, чем их можно заметить (или признать).</li>
+        <li><strong>Крайний случай:</strong> теоретически возможен. Практически — зависит от чувства юмора Вселенной.</li>
+      </ul>
+      <p class="muted">Если вдруг область начнёт интересоваться мебелью, питомцами, городом или планетой — это событие повышенной значимости. У всего есть минусы; мы о них говорим честно и с улыбкой.</p>
+      <p><button class="btn sec" id="ok">Понятно, закрыть</button></p>
+    </div>
+  </dialog>
+
+  <!-- Spline corner embed -->
+  <div class="corner-iframe" aria-label="Интерактивный ассистент">
+    <iframe
+      src="https://my.spline.design/aiassistantmorphtargetsdemocommunitycopy-eHOoBJRJ9tKInpn01XvCNrRP/"
+      title="Spline embed"
+      loading="lazy"
+      allow="microphone; autoplay; fullscreen; xr-spatial-tracking"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <script>
+    // Параллакс для фона (бережно)
+    (function(){
+      const root = document.getElementById('floaters');
+      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if(prefersReduced || !root) return;
+
+      window.addEventListener('pointermove', (e)=>{
+        const { innerWidth:w, innerHeight:h } = window;
+        const dx = (e.clientX / w - .5);
+        const dy = (e.clientY / h - .5);
+        root.style.transform = `translateZ(0) rotateX(${dy*4}deg) rotateY(${dx*-4}deg)`;
+      }, {passive:true});
+    })();
+
+    // Модалка
+    const modal = document.getElementById('modal');
+    const openers = [document.getElementById('risk'), document.getElementById('learn')];
+    const order = document.getElementById('order');
+    const closeEls = [document.getElementById('close'), document.getElementById('ok')];
+
+    openers.forEach(btn => btn?.addEventListener('click', ()=> modal.showModal()));
+    closeEls.forEach(btn => btn?.addEventListener('click', ()=> modal.close()));
+
+    // Заказ — с ироничным подтверждением
+    order?.addEventListener('click', ()=>{
+      const proceed = confirm('Оформить предзаказ URNA ZERO?\n\nПримечание: вероятность нестабильности мала, но не нулевая — романтика ответственности.');
+      if(proceed){
+        alert('Спасибо! Мы свяжемся, как только область утилизации стабилизирует своё настроение.');
+      }
+    });
+
+    // ESC
+    modal?.addEventListener('keydown', (e)=>{ if(e.key==='Escape') modal.close(); });
+  </script>
+</body>
+</html>
