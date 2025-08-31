@@ -3,8 +3,8 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>URNA ZERO — умная урна с мгновенной утилизацией</title>
-  <meta name="description" content="Бросайте всё — мусор исчезает. Без сортировки, без тарифов. URNA ZERO — бесшумная мгновенная утилизация." />
+  <title>URNA ZERO — Всё исчезает — кроме впечатлений.</title>
+  <meta name="description" content="Премиальная урна с мгновенной утилизацией. Без сортировки. Без тарифов. Без следов." />
 
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XLBMG2GBC2"></script>
@@ -15,386 +15,312 @@
     gtag('config', 'G-XLBMG2GBC2');
   </script>
 
-  <style>
-    /* ===== ПАЛИТРА «ПРЕМИУМ-ТЕХНИКА» ===== */
-    :root{
-      --bg:#0a1020;          /* главный тёмно-синий фон */
-      --bg-2:#0f1830;
-      --fg:#e9eefc;          /* основной текст */
-      --muted:#b4bfde;       /* вторичный текст */
-      --line:#2a385e;        /* тонкие бордеры */
-      --accent:#9fd6ff;      /* «платиновый» голубой акцент */
-      --accent-2:#e2f4ff;    /* ледяной отблеск */
-      --warn:#ff6d7a;
+  <!-- Система шрифтов (лёгкий гротеск) -->
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
 
-      --radius:18px;
-      --shadow:0 10px 30px rgba(0,0,0,.32);
-      --elev-1:0 1px 0 rgba(255,255,255,.04), 0 20px 40px rgba(0,0,0,.35);
+  <style>
+    /* ===== PRO MINIMAL THEME (светлый, «каталожный») ===== */
+    :root{
+      --paper:#f7f7f7;   /* фон страницы (бумага) */
+      --ink:#0b0b0b;     /* основной текст */
+      --muted:#5f6368;   /* вторичный текст */
+      --line:#e5e7eb;    /* hairline-бордер */
+      --accent:#111111;  /* акцент: глубокий графит/чёрный */
+      --blue:#1d4ed8;    /* вспомогательный холодный (микро-акценты) */
+
+      --wrap:1160px;
+      --radius:22px;
+      --shadow:0 12px 32px rgba(0,0,0,.08);
     }
 
     *{box-sizing:border-box}
     html,body{height:100%}
+    html,body{overflow-x:clip}
     body{
       margin:0;
-      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-                   "Helvetica Neue", Arial, "Noto Sans", "Liberation Sans",
-                   "Apple Color Emoji","Segoe UI Emoji";
-      color:var(--fg);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, "SF Pro Text","SF Pro Display","Segoe UI", Roboto, Arial, "Noto Sans";
+      color:var(--ink);
       background:
-        radial-gradient(1400px 900px at 12% 6%, #0e1a34 0%, transparent 60%),
-        radial-gradient(1200px 800px at 88% 96%, #0c1730 0%, transparent 60%),
-        var(--bg);
+        radial-gradient(900px 700px at 90% 10%, #ffffff 0%, transparent 60%),
+        radial-gradient(900px 700px at 10% 100%, #ffffff 0%, transparent 60%),
+        var(--paper);
       line-height:1.55;
-      letter-spacing:.003em;
-      -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
-      font-feature-settings:"tnum" 1, "liga" 1, "ss01" 1;
+      -webkit-font-smoothing:antialiased; text-rendering:optimizeLegibility;
+      font-feature-settings:"tnum" 1, "liga" 1;
     }
-    /* еле заметная «платиновая» сеточка */
+    /* Мягкая модульная сетка (еле заметно, для глубины) */
     body::before{
-      content:"";
-      position:fixed; inset:0; pointer-events:none; z-index:-1;
+      content:""; position:fixed; inset:0; z-index:-1; pointer-events:none;
       background:
-        linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,0)) 0 0/100% 240px,
-        repeating-linear-gradient(90deg, transparent 0 119px, rgba(255,255,255,.03) 119px 120px),
-        repeating-linear-gradient(0deg,  transparent 0 119px, rgba(255,255,255,.03) 119px 120px);
-      opacity:.28;
+        repeating-linear-gradient(90deg, transparent 0 99px, rgba(0,0,0,.04) 99px 100px),
+        repeating-linear-gradient(0deg,  transparent 0 99px, rgba(0,0,0,.04) 99px 100px);
+      opacity:.12;
     }
 
-    a{color:inherit;text-decoration:none}
-    .wrap{max-width:1080px;margin:0 auto;padding:24px}
-    header{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:12px}
+    a{color:inherit; text-decoration:none}
+    .wrap{max-width:var(--wrap); margin:0 auto; padding:28px 24px}
 
-    .logo{display:flex;align-items:center;gap:12px}
-    .logo span{font-weight:800;letter-spacing:.02em}
-    .tag{
-      font-size:12px;color:var(--accent-2);border:1px solid var(--line);
-      padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,#9fd6ff29,#e2f4ff1a)
+    /* ===== Header ===== */
+    header{display:flex; align-items:center; justify-content:space-between; gap:16px}
+    .logo{display:flex; align-items:center; gap:12px}
+    .badge{display:inline-flex; width:20px; height:20px; border-radius:50%; background:#111; box-shadow:inset 0 0 0 4px #fff, 0 0 0 1px #111}
+    .logo span{font-weight:800; letter-spacing:.01em}
+    .tag{font-size:12px; padding:8px 12px; border:1px solid #111; border-radius:999px; background:#fff}
+
+    /* ===== Hero ===== */
+    .hero{display:grid; grid-template-columns: 0.9fr 1.1fr; align-items:center; gap:48px; padding:56px 0 24px}
+    .eyebrow{display:inline-flex; gap:10px; align-items:center; font-size:12px; font-weight:700; text-transform:uppercase; letter-spacing:.08em}
+    .eyebrow .bar{display:inline-block; width:42px; height:4px; background:#111}
+    h1{font-size:clamp(40px,6vw,72px); line-height:1.02; letter-spacing:-.02em; margin:16px 0 12px}
+    .sub{color:var(--muted); font-size:clamp(17px,2.2vw,20px); max-width:58ch; margin:0 0 22px}
+    .cta{display:flex; gap:12px; flex-wrap:wrap}
+    .btn{appearance:none; border:0; cursor:pointer; padding:16px 20px; border-radius:16px; font-weight:800; letter-spacing:.01em; transition:transform .12s ease, filter .25s ease}
+    .btn.primary{background:#111; color:#fff; box-shadow:var(--shadow)}
+    .btn.primary:hover{transform:translateY(-1px); filter:saturate(108%)}
+    .btn.secondary{background:#fff; color:#111; border:2px solid #111}
+    .note{font-size:12px; color:var(--muted); margin-top:12px}
+
+    /* Hero Visual — квадратный рендер (ВАШ ФАЙЛ) */
+    .visual{
+      width:100%; aspect-ratio:1/1; border-radius:var(--radius); border:1px solid #111; background:
+        url('assets/urna-premium@2x.png') 56% 60% / clamp(360px, 92%, 720px) no-repeat,
+        radial-gradient(40% 30% at 50% 12%, rgba(0,0,0,.06), transparent 60%),
+        linear-gradient(180deg, #fafafa, #f1f1f1);
+      box-shadow:var(--shadow);
     }
 
-    .hero{
-      display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:32px;padding:40px 0 24px;
-    }
-    h1{
-      font-size:clamp(30px,4.4vw,48px);letter-spacing:-.015em;margin:0 0 12px;line-height:1.08;
-      text-shadow:0 1px 0 rgba(0,0,0,.25);
-    }
-    .sub{
-      font-size:clamp(16px,2.1vw,19px);color:var(--muted);margin:0 0 20px;max-width:60ch;
-    }
+    /* ===== Trust micro-row ===== */
+    .trust{display:flex; gap:28px; align-items:center; flex-wrap:wrap; padding:18px 0; color:#222}
+    .trust span{display:inline-flex; align-items:center; gap:8px; font-size:14px}
+    .dot{width:8px; height:8px; background:#111; border-radius:50%}
 
-    .kicker{
-      display:inline-flex;align-items:center;gap:8px;font-size:12px;
-      color:#0d2236;background:linear-gradient(90deg, #9fd6ff29, #e2f4ff1a);
-      border:1px solid var(--line);border-radius:999px;padding:6px 10px
-    }
-    .kicker svg{width:14px;height:14px}
+    /* ===== Sections ===== */
+    .section{padding:64px 0; content-visibility:auto}
+    .grid-3{display:grid; grid-template-columns:repeat(3, minmax(0,1fr)); gap:20px}
+    .card{border:1px solid #111; border-radius:18px; padding:22px; background:#fff; box-shadow:var(--shadow)}
+    .card h3{margin:0 0 8px; font-size:20px}
+    .card p{margin:0; color:#2b2b2b}
 
-    .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
-    .btn{
-      appearance:none;border:0;cursor:pointer;
-      padding:14px 18px;border-radius:14px;font-weight:750;letter-spacing:.01em;
-      transition:transform .12s ease, box-shadow .25s ease, filter .25s ease, opacity .2s ease;
-      color:#0a1426;background:linear-gradient(180deg, #aadcff, #8ecfff);
-      box-shadow: var(--elev-1);
-    }
-    .btn:hover{transform:translateY(-1px);filter:saturate(110%)}
-    .btn:active{transform:translateY(0);filter:saturate(100%)}
-    .btn.sec{
-      background:linear-gradient(180deg,#162542,#141f38);color:var(--accent);
-      border:1px solid var(--line);box-shadow:none;
-    }
-    .note{font-size:12px;color:var(--muted);margin-top:10px}
-    .note em{color:var(--accent)}
+    .how{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; margin-top:16px}
+    .step{border:2px solid #111; border-radius:16px; padding:16px; background:#fff}
+    .step strong{display:block; font-size:18px; margin-bottom:6px}
 
-    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;margin:24px 0}
-    .card{
-      border:1px solid var(--line);border-radius:var(--radius);padding:18px;
-      background:linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.03));
-      box-shadow:var(--shadow);backdrop-filter:saturate(115%) blur(4px);
+    .safety{border:1px solid #111; border-radius:18px; padding:22px; background:#fff; box-shadow:var(--shadow)}
+    .safety h3{margin:0 0 10px}
+    .acc{margin-top:10px}
+    .acc summary{cursor:pointer; list-style:none; font-weight:700}
+    .acc summary::-webkit-details-marker{display:none}
+    .acc details{border-top:1px solid var(--line); padding-top:10px; margin-top:10px}
+    .acc p{margin:8px 0; color:#2b2b2b}
+
+    .specs{display:grid; grid-template-columns:1fr 1fr; gap:12px 24px; margin-top:16px}
+    .specs p{margin:0; border-bottom:1px solid var(--line); padding:10px 0}
+    .price{display:flex; align-items:end; justify-content:space-between; flex-wrap:wrap; gap:16px; margin-top:20px}
+    .price .num{font-size:clamp(26px,3.2vw,34px); font-weight:800; letter-spacing:-.01em}
+
+    .foot{border-top:2px solid #111; padding:28px 0 40px; margin-top:32px; font-size:13px; color:#222}
+
+    /* ===== CUSTOM PREORDER TOAST (кастом, с анимацией) ===== */
+    .neuro-flash{
+      position:fixed; inset:0; pointer-events:none; z-index:200; display:none;
     }
-    .card h3{margin:0 0 8px;font-size:18px;letter-spacing:.005em;font-weight:750}
-    .card p{margin:0;color:var(--muted)}
-    .specs{margin-top:8px;font-size:14px;color:var(--muted)}
-
-    .section{padding:36px 0}
-    .muted{color:var(--muted)}
-
-    .foot{
-      border-top:1px solid var(--line);padding:24px 0;margin-top:32px;font-size:13px;color:var(--muted)
+    .neuro-flash.show{display:block;}
+    .neuro-flash::before{
+      content:"";
+      position:absolute; left:50%; bottom:0;
+      width:10vmax; height:10vmax; transform:translate(-50%, 50%);
+      background:radial-gradient(circle, rgba(255,255,255,.85) 0%, rgba(255,255,255,.35) 35%, rgba(255,255,255,0) 70%);
+      border-radius:50%;
+      animation: flash 700ms ease-out forwards;
+    }
+    @keyframes flash{
+      0%{opacity:.0; transform:translate(-50%, 50%) scale(.6)}
+      30%{opacity:1}
+      100%{opacity:0; transform:translate(-50%, 50%) scale(2.2)}
     }
 
-    /* ===== БЛОК ИЛЛЮСТРАЦИИ ПРОДУКТА — БЕЗ ВСТРОЕННОГО SVG, С ВАШЕЙ КАРТИНКОЙ ===== */
-.hero-art{
-  width:100%;
-  aspect-ratio:1/1;
-  border-radius:20px;
-  border:1px solid var(--line);
-  overflow:hidden;
-  position:relative;
-
-  /* 1) Сначала КАРТИНКА (верхний слой), потом подсветка, потом фон */
-  background:
-    url('/assets/urna-premium@2x.png') 56% 52% / clamp(280px, 88%, 520px) no-repeat,
-    radial-gradient(40% 30% at 50% 15%, rgba(159,214,255,.18), transparent 60%),
-    linear-gradient(180deg, #0f1a34, #0b1326);
-}
-
-/* деликатный глянец сверху */
-.hero-art::after{
-  content:"";
-  position:absolute; left:0; right:0; top:0; height:14%;
-  background:linear-gradient(180deg, rgba(255,255,255,.12), rgba(255,255,255,0));
-  border-top-left-radius:inherit; border-top-right-radius:inherit;
-  pointer-events:none; opacity:.5;
-}
-
-/* адаптив — чуть центрируем и даём побольше масштаба на узких экранах */
-@media (max-width:980px){
-  .hero-art{ background-position:50% 50%; background-size:clamp(260px, 92%, 520px); }
-}
-
-    /* ===== ТИХАЯ 3D-ПОДЛОЖКА ===== */
-    .bg-3d{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:-2;perspective:1000px;}
-    .orb{position:absolute;width:120vmax;height:120vmax;left:50%;top:55%;transform:translate(-50%,-50%) rotateX(60deg);opacity:.25;filter:blur(.2px)}
-    .orb svg{width:100%;height:100%}
-    .floaters{position:absolute;inset:0;opacity:.18;transform-style:preserve-3d;animation:drift 36s linear infinite}
-    @keyframes drift{from{transform:translateZ(0) rotateZ(0deg)}to{transform:translateZ(0) rotateZ(360deg)}}
-    .floater{position:absolute;width:220px;height:220px;opacity:.75;transform-style:preserve-3d;will-change:transform;animation:bob 7s ease-in-out infinite;filter:drop-shadow(0 10px 18px rgba(0,0,0,.35))}
-    @keyframes bob{0%,100%{transform:translateZ(0) translateY(0)}50%{transform:translateZ(90px) translateY(-10px)}}
-
-    /* ===== МОДАЛКА ===== */
-    .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(6,12,24,.65);padding:20px;z-index:100}
-    .modal[open]{display:flex}
-    .modal-card{
-      background:linear-gradient(180deg,#0f1830,#0d172e);
-      border-radius:16px;border:1px solid var(--line);max-width:680px;width:100%;padding:20px;
-      box-shadow:0 20px 60px rgba(0,0,0,.5); color:var(--fg)
+    .neuro-toast{
+      position:fixed; left:50%; bottom:28px; transform:translate(-50%, 30px);
+      width:min(560px, calc(100vw - 32px));
+      background:#111; color:#fff; border:2px solid #111; border-radius:16px; box-shadow:0 24px 60px rgba(0,0,0,.22);
+      padding:16px 18px; z-index:210; display:grid; grid-template-columns:auto 1fr auto; gap:14px; align-items:center;
+      opacity:0; pointer-events:none;
     }
-    .modal-card h3{margin:0 0 8px}
-    .close{float:right;border:none;background:transparent;font-size:22px;color:var(--fg);cursor:pointer}
-
-    /* ===== УГОЛОК СО SPLINE (ВЕРСИЯ БЕЗ ФОНА/ТЕНЕЙ — КАК ПРОСИЛИ) ===== */
-    :root{
-      --corner-iframe-w: 320px;
-      --corner-iframe-h: 320px;
-      --corner-iframe-gap: 0px;
-      --corner-iframe-radius: 16px;
+    .neuro-toast.show{opacity:1; transform:translate(-50%, 0); pointer-events:auto; transition:opacity .4s ease, transform .4s ease}
+    .neuro-ico{width:28px; height:28px; display:inline-block}
+    .neuro-ico svg{width:100%; height:100%}
+    .neuro-title{font-weight:800; letter-spacing:.01em; margin:0 0 2px}
+    .neuro-sub{margin:0; color:#d6d6d6; font-size:14px; line-height:1.35}
+    .neuro-close{appearance:none; border:0; background:#fff; color:#111; font-weight:800; border-radius:10px; padding:10px 12px; cursor:pointer}
+    .neuro-progress{
+      grid-column:1/-1; height:3px; border-radius:3px; background:linear-gradient(90deg, #fff, #bbb);
+      overflow:hidden; position:relative; margin-top:4px; opacity:.9;
     }
+    .neuro-progress::after{
+      content:""; position:absolute; inset:0; background:#fff; transform-origin:left;
+      animation: progress 5s linear forwards;
+    }
+    @keyframes progress{ from{transform:scaleX(1)} to{transform:scaleX(0)} }
+
+    /* ===== Spline corner (без фона/тени) ===== */
+    :root{ --corner-iframe-w: 320px; --corner-iframe-h: 320px; --corner-iframe-gap: 0px; --corner-iframe-radius: 16px; }
     .corner-iframe{
-      position: fixed;
-      right: var(--corner-iframe-gap);
-      bottom: var(--corner-iframe-gap);
-      width: var(--corner-iframe-w);
-      height: var(--corner-iframe-h);
-      z-index: 60;       /* ниже модалки (100) */
-      border: 0;
-      border-radius: var(--corner-iframe-radius);
-      overflow: hidden;
-      background: transparent !important;  /* без фона */
-      box-shadow: none !important;         /* без тени */
+      position:fixed; right:max(var(--corner-iframe-gap), env(safe-area-inset-right));
+      bottom:max(var(--corner-iframe-gap), env(safe-area-inset-bottom));
+      width:var(--corner-iframe-w); height:var(--corner-iframe-h);
+      z-index:60; border:0; border-radius:var(--corner-iframe-radius); overflow:hidden;
+      background:transparent !important; box-shadow:none !important;
     }
-    .corner-iframe iframe{width:100%;height:100%;display:block;border:0}
+    .corner-iframe iframe{width:100%; height:100%; display:block; border:0}
 
-    /* ===== АДАПТИВ ===== */
+    /* ===== Mobile ===== */
+    @media (max-width:1080px){ .hero{gap:32px} }
     @media (max-width:980px){
-      .hero{grid-template-columns:1fr;gap:22px}
-      .sub{max-width:unset}
-      .hero-art{background-position:50% 50%;background-size:min(92%,520px)}
+      .hero{grid-template-columns:1fr; padding:36px 0 8px}
+      h1{font-size:clamp(34px,9vw,52px)}
+      .visual{aspect-ratio:auto; min-height:360px; max-height:min(62vh, 720px); background-position:50% 40%; background-size:min(94vw, 720px)}
     }
-    @media (max-width:900px){ .grid{grid-template-columns:1fr 1fr} }
+    @media (max-width:900px){ .grid-3{grid-template-columns:1fr} .specs{grid-template-columns:1fr} }
     @media (max-width:640px){
-      .wrap{padding:18px}
-      .grid{grid-template-columns:1fr}
-      h1{font-size:clamp(26px,7vw,36px)}
-      .sub{font-size:15.5px}
-      .corner-iframe{ --corner-iframe-w:220px; --corner-iframe-h:220px; }
+      .wrap{padding:20px}
+      .btn{padding:14px 18px}
+      .corner-iframe{ --corner-iframe-w: 220px; --corner-iframe-h: 220px; }
     }
-    @media (max-width:420px){
-      .corner-iframe{ --corner-iframe-w:180px; --corner-iframe-h:180px; }
+    @media (max-width:380px){
+      .corner-iframe{ --corner-iframe-w: 160px; --corner-iframe-h: 160px; }
     }
-
-    /* Prefers-reduced-motion */
     @media (prefers-reduced-motion: reduce){
-      .floaters,.orb,.btn,.hero-art *{animation:none;transition:none}
+      .neuro-flash::before{animation:none; opacity:0}
+      .neuro-toast{transition:none}
+      .neuro-progress::after{animation:none}
     }
   </style>
 </head>
 <body>
-  <!-- Тихая 3D-подложка -->
-  <div class="bg-3d" aria-hidden="true">
-    <div class="orb">
-      <svg viewBox="0 0 1000 1000" role="presentation">
-        <defs>
-          <radialGradient id="g1" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stop-color="#7cc6ff" stop-opacity=".12"/>
-            <stop offset="60%" stop-color="#7cc6ff" stop-opacity=".04"/>
-            <stop offset="100%" stop-color="#7cc6ff" stop-opacity="0"/>
-          </radialGradient>
-        </defs>
-        <circle cx="500" cy="500" r="480" fill="url(#g1)"/>
-        <g fill="none" stroke="#7cc6ff" stroke-opacity=".10">
-          <ellipse cx="500" cy="500" rx="420" ry="220"/>
-          <ellipse cx="500" cy="500" rx="360" ry="180"/>
-          <ellipse cx="500" cy="500" rx="300" ry="140"/>
-          <ellipse cx="500" cy="500" rx="240" ry="110"/>
-          <ellipse cx="500" cy="500" rx="180" ry="80"/>
-        </g>
-      </svg>
-    </div>
-    <div class="floaters" id="floaters">
-      <div class="floater" style="left:8%; top:18%; animation-delay:-1s;">
-        <svg viewBox="0 0 200 200">
-          <defs><linearGradient id="chipA" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0%" stop-color="#7cc6ff" stop-opacity=".18"/>
-            <stop offset="100%" stop-color="#7cc6ff" stop-opacity=".04"/>
-          </linearGradient></defs>
-          <rect x="10" y="10" width="180" height="180" rx="24" fill="url(#chipA)"/>
-          <circle cx="100" cy="100" r="44" fill="#7cc6ff" opacity=".06"/>
-        </svg>
-      </div>
-      <div class="floater" style="left:70%; top:8%; animation-delay:-2.4s;">
-        <svg viewBox="0 0 200 200">
-          <defs><linearGradient id="chipB" x1="1" x2="0" y1="0" y2="1">
-            <stop offset="0%" stop-color="#7cc6ff" stop-opacity=".18"/>
-            <stop offset="100%" stop-color="#7cc6ff" stop-opacity=".04"/>
-          </linearGradient></defs>
-          <polygon points="20,30 180,50 160,180 40,160" fill="url(#chipB)" />
-          <circle cx="120" cy="120" r="30" fill="#7cc6ff" opacity=".06"/>
-        </svg>
-      </div>
-      <div class="floater" style="left:78%; top:66%; animation-delay:-3.6s;">
-        <svg viewBox="0 0 200 200">
-          <defs><radialGradient id="chipC" cx="50%" cy="50%" r="60%">
-            <stop offset="0%" stop-color="#7cc6ff" stop-opacity=".18"/>
-            <stop offset="100%" stop-color="#7cc6ff" stop-opacity=".04"/>
-          </radialGradient></defs>
-          <circle cx="100" cy="100" r="90" fill="url(#chipC)"/>
-          <rect x="70" y="70" width="60" height="60" rx="10" fill="#7cc6ff" opacity=".06"/>
-        </svg>
-      </div>
-    </div>
-  </div>
-
   <div class="wrap">
+    <!-- Header -->
     <header>
       <a class="logo" href="#" aria-label="URNA ZERO">
-        <!-- Лого: кольцо + точка -->
-        <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true">
-          <defs>
-            <radialGradient id="lg" cx="50%" cy="50%" r="50%">
-              <stop offset="0%" stop-color="#7cc6ff"/>
-              <stop offset="100%" stop-color="#7cc6ff" stop-opacity=".4"/>
-            </radialGradient>
-          </defs>
-          <circle cx="13" cy="13" r="11" fill="none" stroke="#7cc6ff" stroke-opacity=".85" stroke-width="2"/>
-          <circle cx="13" cy="13" r="3.2" fill="url(#lg)"/>
-        </svg>
+        <span class="badge" aria-hidden="true"></span>
         <span>URNA&nbsp;ZERO</span>
       </a>
       <span class="tag">Предзаказ открыт</span>
     </header>
 
+    <!-- HERO -->
     <section class="hero">
       <div>
-        <span class="kicker" title="Бесшумная мгновенная утилизация">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 7L9 18l-5-5" stroke="#0e7490" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Без сортировки. Без тарифов. Без следов*.
-        </span>
-        <h1>Умная урна с мгновенной утилизацией</h1>
-        <p class="sub">Бросайте бумагу, пластик, еду, металл — всё исчезает. Никаких контейнеров, графиков вывоза и платы за мусор.
-          <em class="muted">А если внезапно исчезнет больше — значит система работает даже лучше, чем обещали.</em></p>
+        <span class="eyebrow"><span class="bar"></span> мгновенная утилизация</span>
+        <h1>Умная урна. Всё исчезает — кроме впечатлений.</h1>
+        <p class="sub">Бросайте бумагу, пластик, стекло, еду, металл — и продолжайте жить. <em>Если исчезнет больше — значит система работает даже лучше, чем обещали.</em></p>
         <div class="cta">
-          <button class="btn" id="order">Оформить предзаказ</button>
-          <button class="btn sec" id="learn">Как это работает</button>
+          <button class="btn primary" id="order-primary">Оформить предзаказ</button>
+          <button class="btn secondary" id="learn">Как это работает</button>
         </div>
-        <p class="note">*Вероятность нестабильности области утилизации <em>ничтожна</em>… и, по-честному, математически отличима от нуля. Но у всего есть минусы, верно?</p>
+        <p class="note">Вероятность нестабильности области утилизации ничтожна — и всё же математически отличима от нуля. Но у всего есть минусы, верно?</p>
       </div>
-
-      <!-- Иллюстрация: берётся из assets/urna-premium@2x.png -->
-      <figure class="hero-art" aria-label="Иллюстрация: URNA ZERO"></figure>
+      <!-- Квадратный рендер устройства (ВАШ ФАЙЛ) -->
+      <figure class="visual" aria-label="URNA ZERO — визуал"></figure>
     </section>
 
+    <!-- Trust micro-row -->
+    <section class="trust">
+      <span><span class="dot"></span> Без сортировки</span>
+      <span><span class="dot"></span> Без тарифов</span>
+      <span><span class="dot"></span> Без следов</span>
+    </section>
+
+    <!-- Benefits -->
     <section class="section">
-      <div class="grid">
+      <div class="grid-3">
         <div class="card">
-          <h3>Мгновенная утилизация</h3>
-          <p>Бросили — и всё. Никаких запахов, переполненных пакетов и споров о сортировке. Соседи в восторге, если ещё есть соседи.</p>
-          <p class="specs">Пропускная способность: <strong>∞ л/сутки</strong> *</p>
+          <h3>Без сортировки</h3>
+          <p>Один контейнер. Ноль компромиссов. Категории мусора остаются в методичках.</p>
         </div>
         <div class="card">
-          <h3>Никаких платежей</h3>
-          <p>Абонплаты за вывоз нет. Счёт за мусор — нулевой. Не потому что кто-то заплатит за вас, а потому что платить уже некому.</p>
-          <p class="specs">Платёжные периоды: <strong>отсутствуют</strong></p>
-        </div>
-        <div class="card">
-          <h3>Тишина и чистота</h3>
-          <p>Бесшумно, без вибраций и износа мешков. Иногда — тихий космологический шёпот, но это показалось.</p>
-          <p class="specs">Уровень шума: <strong>&lt; 5 dBA</strong></p>
-        </div>
-      </div>
-      <div class="grid">
-        <div class="card">
-          <h3>Хватает на всё</h3>
-          <p>Бумага, пластик, стекло, пищевые отходы, металлы — никаких ограничений. Желаете избавиться от ограничений? Они тоже исчезают.</p>
-          <p class="specs">Калибровка материала: <strong>не требуется</strong></p>
-        </div>
-        <div class="card">
-          <h3>Компактный корпус</h3>
-          <p>Станет в угол и растворит беспорядок — буквально. Угол останется, почти наверняка.</p>
-          <p class="specs">Размеры: <strong>Стандарт кухни</strong></p>
+          <h3>Без тарифов</h3>
+          <p>Вывоз не нужен — платить тоже некому. Бюджет благодарит.</p>
         </div>
         <div class="card">
           <h3>Без следов</h3>
-          <p>Отходы не возвращаются. <span class="muted">Никогда.</span> Если что-то вернулось — это уже не отходы.</p>
-          <p class="specs">Обратимость процесса: <strong>0%</strong> †</p>
+          <p>Обратимость 0%. Если что-то вернулось — это уже не мусор.</p>
         </div>
       </div>
     </section>
 
+    <!-- How it works -->
     <section class="section">
-      <div class="grid">
-        <div class="card">
-          <h3>Безопасность</h3>
-          <p>Система стабилизации контролирует область утилизации. Статистически вероятность неконтролируемого расширения <em>ничтожна</em>…</p>
-          <p class="specs">…и одновременно <strong>отличима от нуля</strong> — чтобы мы все не теряли вкус к жизни.</p>
+      <h3>Как это работает</h3>
+      <div class="how">
+        <div class="step"><strong>1. Бросаете.</strong> Ничего не настраиваете. Устройство любит простоту.</div>
+        <div class="step"><strong>2. Исчезает.</strong> Без запахов, звуков и ожиданий. Просто исчезает.</div>
+        <div class="step"><strong>3. Свободны.</strong> Пространство и время — ваши. В основном.</div>
+      </div>
+    </section>
+
+    <!-- Safety (inline, без модалок) -->
+    <section class="section">
+      <div class="safety">
+        <h3>Безопасность, честно</h3>
+        <p>Вероятность неконтролируемого расширения области утилизации — <strong>мала</strong>. И всё же: <strong>отличима от нуля</strong>.</p>
+        <div class="acc">
+          <details open>
+            <summary>Подробнее о стабильности</summary>
+            <p><strong>Автоконтроль горизонта:</strong> непрерывный мониторинг границ «эффективной утилизации».</p>
+            <p><strong>Гашение флуктуаций:</strong> локальные всплески затухают до того, как вы успеете заметить.</p>
+            <p><strong>Крайний случай:</strong> теоретически возможен. Практически — зависит от чувства юмора Вселенной.</p>
+          </details>
         </div>
-        <div class="card">
-          <h3>Вопросы?</h3>
-          <p>Нажмите «Подробнее», чтобы увидеть детали модели стабильности и честный ответ на «что может пойти не так?»</p>
-          <p class="specs"><button class="btn sec" id="risk">Подробнее</button></p>
+      </div>
+    </section>
+
+    <!-- Specs & Price -->
+    <section class="section">
+      <h3>Характеристики</h3>
+      <div class="specs">
+        <p>Пропускная способность: ∞ л/сутки*</p>
+        <p>Уровень шума: &lt; 5 dBA</p>
+        <p>Подключение: 220–240V / розетка</p>
+        <p>Расходники: не требуются</p>
+        <p>Обратимость: 0%</p>
+        <p>Габариты: «стандарт кухни»</p>
+      </div>
+      <div class="price">
+        <div>
+          <div class="num">Предзаказ: 0 ₽/мес за вывоз</div>
+          <div class="sub" style="margin:6px 0 0; font-size:16px">Оплата — только за устройство. Сроки производства уточняются.</div>
         </div>
-        <div class="card">
-          <h3>Гарантия впечатлений</h3>
-          <p>Если вы любите порядок — он будет. Если вы любите острые ощущения — <span class="muted">вероятностная природа мира</span> не подведёт.</p>
-          <p class="specs">Моральный ущерб: <strong>в рамках допустимого</strong>‡</p>
-        </div>
+        <button class="btn primary" id="order-secondary">Предзаказ</button>
       </div>
     </section>
 
     <footer class="foot">
-      * ∞ — в рамках наблюдаемого времени. † Обратимость нулевая при бытовых сценариях. ‡ Определяется внутренним чувством прекрасного.<br/>
-      © URNA ZERO. Всё исчезнет, кроме впечатлений.
+      * ∞ — в рамках наблюдаемого времени. † Обратимость нулевая при бытовых сценариях. ‡ Определяется внутренним чувством прекрасного.
+      <br/>© URNA ZERO. Всё исчезает — кроме впечатлений.
     </footer>
   </div>
 
-  <!-- Modal -->
-  <dialog class="modal" id="modal">
-    <div class="modal-card" role="document" aria-labelledby="m-title">
-      <button class="close" id="close" aria-label="Закрыть">×</button>
-      <h3 id="m-title">Стабильность области утилизации</h3>
-      <p class="muted">Коротко: вероятность нестабильного расширения мала. <em>Мала ли настолько, чтобы ею пренебречь</em> — вопрос философский; инженерно решается, статистически трактуется.</p>
-      <ul>
-        <li><strong>Автоконтроль горизонта:</strong> мониторинг границ «эффективной утилизации» в реальном времени.</li>
-        <li><strong>Гашение флуктуаций:</strong> локальные всплески затухают быстрее, чем их можно заметить (или признать).</li>
-        <li><strong>Крайний случай:</strong> теоретически возможен. Практически — зависит от чувства юмора Вселенной.</li>
-      </ul>
-      <p class="muted">Если вдруг область начнёт интересоваться мебелью, питомцами, городом или планетой — это событие повышенной значимости. У всего есть минусы; мы о них говорим честно и с улыбкой.</p>
-      <p><button class="btn sec" id="ok">Понятно, закрыть</button></p>
+  <!-- CUSTOM PREORDER TOAST (вспышка + «нейро-тост») -->
+  <div class="neuro-flash" id="neuroFlash" aria-hidden="true"></div>
+  <div class="neuro-toast" id="neuroToast" role="status" aria-live="polite">
+    <span class="neuro-ico" aria-hidden="true">
+      <!-- Мини-«мозг» SVG -->
+      <svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 8a3 3 0 0 1 6 0v8a3 3 0 1 1-6 0V8z"/>
+        <path d="M6 10a3 3 0 0 1 0 6"/>
+        <path d="M18 10a3 3 0 0 0 0 6"/>
+      </svg>
+    </span>
+    <div>
+      <p class="neuro-title">Предзаказ принят</p>
+      <p class="neuro-sub">Вся информация получена <strong>напрямую из вашего мозга</strong>. Когда продукт будет доступен, мы также пошлём обновление <strong>напрямую в ваш мозг</strong>. Срок изготовления неизвестен, но, скорее всего, успеем при вашей жизни.</p>
     </div>
-  </dialog>
+    <button class="neuro-close" id="neuroClose" aria-label="Закрыть уведомление">ОК</button>
+    <div class="neuro-progress" aria-hidden="true"></div>
+  </div>
 
-  <!-- Spline corner embed (без фона/тени) -->
+  <!-- Spline corner embed (no bg/shadow) -->
   <div class="corner-iframe" aria-label="Интерактивный ассистент">
     <iframe
       src="https://my.spline.design/aiassistantmorphtargetsdemocommunitycopy-eHOoBJRJ9tKInpn01XvCNrRP/"
@@ -406,38 +332,38 @@
   </div>
 
   <script>
-    // Параллакс для фона (бережно)
+    // Кастомный «нейро-тост» с вспышкой
     (function(){
-      const root = document.getElementById('floaters');
-      const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      if(prefersReduced || !root) return;
-      window.addEventListener('pointermove', (e)=>{
-        const { innerWidth:w, innerHeight:h } = window;
-        const dx = (e.clientX / w - .5);
-        const dy = (e.clientY / h - .5);
-        root.style.transform = `translateZ(0) rotateX(${dy*4}deg) rotateY(${dx*-4}deg)`;
-      }, {passive:true});
+      const toast = document.getElementById('neuroToast');
+      const flash = document.getElementById('neuroFlash');
+      const closeBtn = document.getElementById('neuroClose');
+      const triggers = [document.getElementById('order-primary'), document.getElementById('order-secondary')];
+      let hideTimer;
+
+      function showToast(){
+        // вспышка
+        flash.classList.add('show');
+        setTimeout(()=> flash.classList.remove('show'), 700);
+
+        // тост
+        toast.classList.add('show');
+        clearTimeout(hideTimer);
+        hideTimer = setTimeout(hideToast, 5200);
+
+        // аналитика
+        try{ gtag('event','preorder_click', {event_category:'CTA', event_label:'URNA ZERO PRO MINIMAL'});}catch(e){}
+      }
+      function hideToast(){ toast.classList.remove('show'); }
+
+      closeBtn.addEventListener('click', hideToast);
+      triggers.forEach(t => t && t.addEventListener('click', showToast));
     })();
 
-    // Модалка
-    const modal = document.getElementById('modal');
-    const openers = [document.getElementById('risk'), document.getElementById('learn')];
-    const order = document.getElementById('order');
-    const closeEls = [document.getElementById('close'), document.getElementById('ok')];
-
-    openers.forEach(btn => btn?.addEventListener('click', ()=> modal.showModal()));
-    closeEls.forEach(btn => btn?.addEventListener('click', ()=> modal.close()));
-
-    // Заказ — с ироничным подтверждением
-    order?.addEventListener('click', ()=>{
-      const proceed = confirm('Оформить предзаказ URNA ZERO?\n\nПримечание: вероятность нестабильности мала, но не нулевая — романтика ответственности.');
-      if(proceed){
-        alert('Спасибо! Мы свяжемся, как только область утилизации стабилизирует своё настроение.');
-      }
+    // «Как это работает» — мягкий скролл
+    document.getElementById('learn')?.addEventListener('click', ()=>{
+      const el = document.querySelector('.how');
+      if(el) el.scrollIntoView({behavior:'smooth', block:'start'});
     });
-
-    // ESC
-    modal?.addEventListener('keydown', (e)=>{ if(e.key==='Escape') modal.close(); });
   </script>
 </body>
 </html>
